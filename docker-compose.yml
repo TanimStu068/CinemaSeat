@@ -60,7 +60,7 @@ services:
     depends_on:
       - api
     environment:
-      VITE_API_URL: http://13.214.33.207:8000
+      VITE_API_URL: http://localhost:8000
     stdin_open: true
     tty: true
 

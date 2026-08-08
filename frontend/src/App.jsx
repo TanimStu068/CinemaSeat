@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const rawApiUrl = import.meta.env.VITE_API_URL || 'http://13.214.33.207:8000';
-const API_URL = rawApiUrl.startsWith('http') ? rawApiUrl : 'http://13.214.33.207:8000';
+const fallbackApiUrl = `${window.location.protocol}//${window.location.hostname}:8000`;
+const rawApiUrl = import.meta.env.VITE_API_URL || fallbackApiUrl;
+const API_URL = rawApiUrl.startsWith('http') ? rawApiUrl.replace(/\/$/, '') : fallbackApiUrl.replace(/\/$/, '');
 
 const POSTER_GRADIENTS = [
   'linear-gradient(135deg, #1e293b, #0f172a)',
