@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cinema
+      POSTGRES_PASSWORD: cinema_pass
+      POSTGRES_DB: cinemaseat
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinema"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+  gateway:
+    image: asifmahmoud414/mock-gateway:latest
+    ports:
+      - "9000:9000"
+    environment:
+      GATEWAY_SECRET: z2p-2026-secret
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9000/health || exit 1"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cinema:cinema_pass@db:5432/cinemaseat
+      REDIS_URL: redis://redis:6379
+      GATEWAY_URL: http://gateway:9000
+      PAYMENT_CALLBACK_URL: http://api:8000/webhooks/payment
+      OTP_CALLBACK_URL: http://api:8000/webhooks/otp
+      HOLD_TTL_SECONDS: 300
+      GATEWAY_SECRET: z2p-2026-secret
+    command: >
+      sh -c "alembic upgrade head &&
+             python seed.py &&
+             uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:5173"
+    depends_on:
+      - api
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+volumes:
+  postgres_data:
