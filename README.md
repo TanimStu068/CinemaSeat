@@ -14,7 +14,9 @@ CinemaSeat is a production-ready, high-concurrency seat reservation and ticketin
 
 ## 🎬 Application Demo & Screen Recording
 
-![CinemaSeat Demo](demo.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanimStu068/CinemaSeat/main/demo.gif" alt="CinemaSeat Application Demo" width="100%" />
+</p>
 
 > **Watch the full application walkthrough:** Demonstrating real-time seat map selection (up to 3 seats), 60-second hold timer auto-release, OTP verification & payment webhook processing, and client-side movie search.
 
