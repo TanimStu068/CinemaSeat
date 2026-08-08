@@ -10,5 +10,13 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
+    proxy: {
+      '/movies': 'http://api:8000',
+      '/showtimes': 'http://api:8000',
+      '/seats': 'http://api:8000',
+      '/otp': 'http://api:8000',
+      '/charge': 'http://api:8000',
+      '/booking': 'http://api:8000',
+    },
   },
 })

@@ -2,9 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const fallbackApiUrl = `${window.location.protocol}//${window.location.hostname}:8000`;
-const rawApiUrl = import.meta.env.VITE_API_URL || fallbackApiUrl;
-const API_URL = rawApiUrl.startsWith('http') ? rawApiUrl.replace(/\/$/, '') : fallbackApiUrl.replace(/\/$/, '');
+const getApiUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && envUrl.trim() !== '') {
+    return envUrl.replace(/\/$/, '');
+  }
+  if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return `http://${window.location.hostname}:8000`;
+  }
+  return ''; // Relative URL for Vite proxy fallback
+};
+
+const API_URL = getApiUrl();
 
 const POSTER_GRADIENTS = [
   'linear-gradient(135deg, #1e293b, #0f172a)',
