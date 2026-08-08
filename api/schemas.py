@@ -63,3 +63,8 @@ class BookingStatusResponse(BaseModel):
 
     class Config:
         from_attributes = True
+class ReleaseSeatRequest(BaseModel):
+    user_id: str
+    # Optional: could include phone if needed, but user_id is sufficient for verification
+
+# Duplicate Config removed – each model defines its own Config.

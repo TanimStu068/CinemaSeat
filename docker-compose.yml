@@ -61,6 +61,8 @@ services:
       - api
     environment:
       VITE_API_URL: http://localhost:8000
+    stdin_open: true
+    tty: true
 
 volumes:
   postgres_data:

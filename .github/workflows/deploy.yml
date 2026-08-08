@@ -1,4 +1,4 @@
-name: Deploy to Poridhi VM
+name: Deploy to AWS EC2
 
 on:
   push:
@@ -13,9 +13,20 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VM_HOST }}
-          username: ${{ secrets.VM_USER }}
+          username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd ~/cinemaseat
+            # 1. Clone the repository if this is the first deployment
+            if [ ! -d "$HOME/cinemaseat" ]; then
+              git clone https://github.com/${{ github.repository }}.git $HOME/cinemaseat
+            fi
+            
+            # 2. Go into the project folder and pull the latest code
+            cd $HOME/cinemaseat
             git pull origin main
+            
+            # 3. Copy the .env file we created earlier into the project folder
+            cp $HOME/app/.env $HOME/cinemaseat/.env
+            
+            # 4. Start the Docker containers
             docker compose up -d --build --no-deps api frontend
