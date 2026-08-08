@@ -7,10 +7,7 @@ const getApiUrl = () => {
   if (envUrl && envUrl.trim() !== '') {
     return envUrl.replace(/\/$/, '');
   }
-  if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return `http://${window.location.hostname}:8000`;
-  }
-  return ''; // Relative URL for Vite proxy fallback
+  return ''; // Relative URL: lets Vite proxy on port 5173 forward to http://api:8000 internally inside Docker
 };
 
 const API_URL = getApiUrl();
