@@ -59,6 +59,8 @@ services:
       - "5173:5173"
     depends_on:
       - api
+    environment:
+      VITE_API_URL: http://13.214.33.207:8000
     stdin_open: true
     tty: true
 

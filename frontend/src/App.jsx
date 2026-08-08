@@ -2,19 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const getApiUrl = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (typeof window !== 'undefined') {
-    const isLocalhostHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    if (envUrl && (!envUrl.includes('localhost') || isLocalhostHost)) {
-      return envUrl;
-    }
-    return `${window.location.protocol}//${window.location.hostname}:8000`;
-  }
-  return envUrl || 'http://localhost:8000';
-};
-
-const API_URL = getApiUrl();
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://13.214.33.207:8000';
+const API_URL = rawApiUrl.startsWith('http') ? rawApiUrl : 'http://13.214.33.207:8000';
 
 const POSTER_GRADIENTS = [
   'linear-gradient(135deg, #1e293b, #0f172a)',
