@@ -104,7 +104,7 @@ Follow these exact steps to run the complete stack locally from scratch:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/asifmahmoud/cinemaseat.git
+   git clone 
    cd cinemaseat
    ```
 
