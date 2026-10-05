@@ -214,3 +214,12 @@ To test heavy concurrent load (100 simultaneous requests) against a single seat:
 docker exec cinemaseat-api-1 python /tmp/concurrency_test.py --seat-id 1285 --showtime-id 11 --count 100
 ```
 *Output: Exactly 1 successful hold (200 OK), 99 rejections (409 Conflict), 0 oversells.*
+
+
+## License
+
+This project is currently not licensed for reuse, modification,
+or redistribution. All rights reserved by the project authors.
+
+Please do not copy, modify, distribute, or use this project
+without permission.
